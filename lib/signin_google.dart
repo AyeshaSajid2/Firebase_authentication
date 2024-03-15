@@ -1,67 +1,6 @@
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/material.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
-//
-// class SigninGoogle extends StatelessWidget {
-//   const SigninGoogle({Key? key}) : super(key: key);
-//
-//   googleLogin() async {
-//     print("googleLogin method Called");
-//     GoogleSignIn _googleSignIn = GoogleSignIn();
-//     try {
-//       var reslut = await _googleSignIn.signIn();
-//       if (reslut == null) {
-//         return;
-//       }
-//
-//       final userData = await reslut.authentication;
-//       final credential = GoogleAuthProvider.credential(
-//           accessToken: userData.accessToken, idToken: userData.idToken);
-//       var finalResult =
-//       await FirebaseAuth.instance.signInWithCredential(credential);
-//       print("Result $reslut");
-//       print(reslut.displayName);
-//       print(reslut.email);
-//       print(reslut.photoUrl);
-//     } catch (error) {
-//       print(error);
-//     }
-//   }
-//
-//   Future<void> logout() async {
-//     await GoogleSignIn().disconnect();
-//     FirebaseAuth.instance.signOut();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Login Screen'),
-//         actions: [
-//           TextButton(
-//             onPressed: logout,
-//             child: const Text(
-//               'LogOut',
-//               style: TextStyle(
-//                 color: Colors.black,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//           )
-//         ],
-//       ),
-//       body: Center(
-//         child: ElevatedButton(
-//             child: const Text('Google Login'), onPressed: googleLogin),
-//       ),
-//     );
-//   }
-// }
-
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Import for Firestore
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -70,7 +9,12 @@ class SigninGoogle extends StatelessWidget {
 
   Future<void> googleLogin() async {
     try {
-      GoogleSignIn _googleSignIn = GoogleSignIn();
+      GoogleSignIn _googleSignIn = GoogleSignIn(
+        clientId: '25840478730-q8fjndvm7k2hnfpkur75dv9vsqhmnuk3.apps.googleusercontent.com',
+        scopes: [
+          'email',
+        ],
+      );
 
       // Get Google Sign-in account data
       final GoogleSignInAccount? account = await _googleSignIn.signIn();
@@ -84,7 +28,8 @@ class SigninGoogle extends StatelessWidget {
 
       // Create Firebase credential using accessToken and idToken
       final OAuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: authentication.accessToken, idToken: authentication.idToken);
+          accessToken: authentication.accessToken,
+          idToken: authentication.idToken);
 
       // Sign in with Firebase using the credential
       final UserCredential userCredential =
@@ -105,7 +50,8 @@ class SigninGoogle extends StatelessWidget {
   }
 
   Future<void> saveUserDataToFirestore(User user) async {
-    final docUser = FirebaseFirestore.instance.collection('users').doc(user.uid);
+    final docUser =
+    FirebaseFirestore.instance.collection('users').doc(user.uid);
     await docUser.set({
       'uid': user.uid,
       'name': user.displayName,
@@ -136,13 +82,19 @@ class SigninGoogle extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
-            child: const Text('Google Login'), onPressed: googleLogin),
+          child: const Text('Google Login', style: TextStyle(color: Colors.black),),
+          onPressed: googleLogin,
+          style: ButtonStyle(
+            backgroundColor:
+            MaterialStateProperty.all<Color>(Colors.green),
+          ),
+        ),
       ),
     );
   }
 
   Future<void> logout() async {
-    await GoogleSignIn().disconnect();
-    FirebaseAuth.instance.signOut();
+    await GoogleSignIn().signOut();
+    await FirebaseAuth.instance.signOut();
   }
 }

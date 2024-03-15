@@ -1,3 +1,4 @@
+import 'package:assignment_three/res/customs_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -20,7 +21,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           color: Colors.white, // Customize text color
         ),
       ),
-      backgroundColor: Colors.green // Customize background color
+      elevation: 0,
+      backgroundColor: CustomColors.firebaseOrange,
+      centerTitle: true,// Customize background color
       // actions: actions,
     );
   }

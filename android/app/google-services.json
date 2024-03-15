@@ -37,6 +37,13 @@
             {
               "client_id": "25840478730-dbsk2bjsgcah4hp9mnbvc07vo40cbjvr.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "25840478730-a5sbvrkgahonut24ab8cacmk59u3d5bl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.assignmentThree"
+              }
             }
           ]
         }

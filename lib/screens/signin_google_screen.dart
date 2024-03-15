@@ -1,41 +1,37 @@
-import 'package:assignment_three/res/custom_app_bar_colors.dart';
-import 'package:assignment_three/res/custom_button_colors.dart';
 import 'package:assignment_three/res/customs_colors.dart';
 import 'package:assignment_three/utils/authentication.dart';
-import 'package:assignment_three/widgets/anonym_signin_button.dart';
-import 'package:assignment_three/widgets/app_bar_title.dart';
-import 'package:assignment_three/widgets/email_signin_button.dart';
 import 'package:assignment_three/widgets/googlr_signin_button.dart';
-import 'package:assignment_three/widgets/phone_auth_button.dart';
 import 'package:flutter/material.dart';
 
+class GoogleSignInScreen extends StatefulWidget {
+  const GoogleSignInScreen({super.key});
 
-class ScreenDashboard extends StatelessWidget {
-  const ScreenDashboard({super.key});
+  @override
+  _GoogleSignInScreenState createState() => _GoogleSignInScreenState();
+}
 
+class _GoogleSignInScreenState extends State<GoogleSignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
-      appBar: AppBar(
-        title: AppBarTitle(), backgroundColor: CustomColors.firebaseNavy,
-      ),
-      body: Center(
+      body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.only(
+            left: 16.0,
+            right: 16.0,
+            bottom: 20.0,
+          ),
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
-
-              const SizedBox(height: 60),
-              AnonymousSignInButton(),
-
-              const SizedBox(height: 30,),
-              EmailSaignInButton(),
-
-              const SizedBox(height: 30),
-              PhoneAuthSignInButton(),
-
-              const SizedBox(height: 30,),
+              const Row(),
+              const Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                ),
+              ),
               FutureBuilder(
                 future: Authentication.initializeFirebase(context: context),
                 builder: (context, snapshot) {
